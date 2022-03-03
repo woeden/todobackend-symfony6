@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class TodoController extends AbstractController
 {
 
-    private $serializer;
+    private SerializerInterface $serializer;
 
     public function __construct(SerializerInterface $serializer)
     {
@@ -173,7 +173,7 @@ class TodoController extends AbstractController
     /**
      * @Route("/todos/{id}/tags/", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function getTags(ManagerRegistry $doctrine, int $id, Request $request): Response
+    public function getTags(ManagerRegistry $doctrine, int $id): Response
     {
         $entityManager = $doctrine->getManager();
         $repository = $entityManager->getRepository(Todo::class);
@@ -191,7 +191,7 @@ class TodoController extends AbstractController
     /**
      * @Route("/todos/{id}/tags/", methods={"DELETE"}, requirements={"id"="\d+"})
      */
-    public function deleteTags(ManagerRegistry $doctrine, int $id, Request $request): Response
+    public function deleteTags(ManagerRegistry $doctrine, int $id): Response
     {
         $entityManager = $doctrine->getManager();
         $repository = $entityManager->getRepository(Todo::class);

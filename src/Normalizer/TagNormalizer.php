@@ -8,8 +8,8 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class TagNormalizer extends ObjectNormalizer
 {
-    private $router;
-    private $normalizer;
+    private UrlGeneratorInterface $router;
+    private ObjectNormalizer $normalizer;
 
     public function __construct(UrlGeneratorInterface $router, ObjectNormalizer $normalizer)
     {
@@ -32,7 +32,7 @@ class TagNormalizer extends ObjectNormalizer
         return $data;
     }
 
-    public function supportsNormalization($data, string $format = null, array $context = [])
+    public function supportsNormalization($data, string $format = null, array $context = []) : bool
     {
         return $data instanceof Tag;
     }
