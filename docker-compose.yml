@@ -2,6 +2,8 @@ version: '3.9'
 
 services:
   nginx:
+    depends_on:
+      - php
     image: nginx:stable-alpine
     ports:
       - 8080:80
@@ -15,9 +17,20 @@ services:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_SECRET}
       MYSQL_ROOT_PASSWORD: ${DB_SECRET}
+    volumes:
+    - database:/var/lib/mysql
   php:
+    depends_on:
+      - mysql
+    restart: on-failure
     build:
       context: .
       dockerfile: php.dockerfile
+      args:
+        IMAGE_PHP_VERSION: ${IMAGE_PHP_VERSION}
     volumes:
       - .:/var/www/html
+    command: sh -c "composer install && php bin/console make:migration && php bin/console d:m:m && php-fpm"
+
+volumes:
+  database:
