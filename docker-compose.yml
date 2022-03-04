@@ -30,7 +30,6 @@ services:
         IMAGE_PHP_VERSION: ${IMAGE_PHP_VERSION}
     volumes:
       - .:/var/www/html
-    command: sh -c "composer install && php bin/console make:migration && php bin/console d:m:m && php-fpm"
 
 volumes:
   database:
